@@ -1,0 +1,27 @@
+{% extends "layout.html" %}
+
+{% block body %}
+<main class="container">
+  <div class="row">
+
+    <div class="">
+      <h3>Categories</h3>
+      <div class="">
+        {% for cat in categories %}
+          <a href="/category/{{cat.name}}" class="">{{cat.name}}</a>
+        {% endfor %}
+      </div>
+    </div>
+
+    <div class="">
+      <h3>Most Recent Items</h3>
+      <div class="">
+        {% for i in items %}
+          <a href="/item/{{i.category.name}}/{{i.id}}" class="">{{i.name}}</a>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+  <a href="/category/create" class="">New Category</a>
+</main>
+{% endblock %}

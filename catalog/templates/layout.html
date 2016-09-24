@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/css/materialize.min.css"> -->
+  <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+  <!-- <script src="{{url_for('static', filename='js/bin/materialize.min.js')}}" charset="utf-8"></script> -->
+  <script src="{{url_for('static', filename='js/site/main.js')}}"></script>
+  <!-- <link rel="stylesheet" href="{{url_for('static', filename='css/materialize.css')}}"> -->
+  <link rel="stylesheet" href="{{url_for('static', filename='css/bootstrap.min.css')}}">
+  <link rel="stylesheet" href="{{url_for('static', filename='css/main.css')}}">
+  <!-- <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"> -->
+</head>
+  <body>
+    <nav class="navbar navbar-light">
+      <div class="">
+        <a href="{{url_for('Landing')}}" class="">Catalog-O-Stuff</a>
+      </div>
+    </nav>
+    {% block body %}
+    {% endblock %}
+  </body>
+</html>

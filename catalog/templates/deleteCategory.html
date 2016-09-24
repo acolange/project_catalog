@@ -1,0 +1,11 @@
+{% extends "layout.html" %}
+
+{% block body %}
+
+<div class="form-field">
+  <p>Arey you sure you want to delete {{category.name}}?</p>
+  <form method="POST">
+    <input type="submit" class="btn waves-lights" value="Delete">
+  </form>
+</div>
+{% endblock %}

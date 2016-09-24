@@ -1,0 +1,24 @@
+{
+  "name": "catalog",
+  "version": "0.0.1",
+  "description": "Catalog project for Udacity Fullstack nanodegree",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/acolange/project_catalog.git"
+  },
+  "author": "A.J. Colangelo",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/acolange/project_catalog/issues"
+  },
+  "homepage": "https://github.com/acolange/project_catalog#readme",
+  "devDependencies": {
+    "bootstrap": "^4.0.0-alpha.4",
+    "gulp": "^3.9.1",
+    "gulp-sass": "^2.3.2"
+  }
+}
