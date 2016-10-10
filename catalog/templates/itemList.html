@@ -2,22 +2,39 @@
 
 {% block body %}
 <main class="container">
-  <a href="/item/create">Create new item</a>
+  <h2>{{category.name}} Items</h2>
+  {% if 'username' in session %}
+  <div class="priv-row">
+    <a class="btn btn-default" href="/item/create">Create new item</a>
+    <a class="btn btn-danger" href="/category/delete/{{category.id}}">Delete Category</a>
+  </div>
+  {% endif %}
+  <div class="row">
+    <div class = 'flash'>
+      {% with messages = get_flashed_messages() %}
+        {% if messages %}
+          <ul>
+            {% for message in messages %}
+              <li> <strong> {{ message }} </strong> </li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+      {% endwith %}
+    </div>
+  </div>
   <div class="row">
   {% for i in items %}
-    <div class="col s12 m6 l3">
-      <div class="card small">
-        <div class="card-image">
-          <img src="http://placehold.it/350x150" alt="">
-          <span class="card-title">{{i.name}}</span>
-        </div>
+    <div class="col-sm-6 col-lg-3">
+      <div class="thumbnail">
+        <img class="img-responsive" src="http://placehold.it/350x150" alt="">
+        <a href="/item/{{i.category.name}}/{{i.id}}"><h3>{{i.name.capitalize()}}</h3></a>
         <div class="card-content">
-          <p>{{i.description}}</p>
+          <h5>{{i.description}}</h5>
         </div>
         <div class="card-action">
-          <a href="/item/{{i.category.name}}/{{i.id}}">Info</a>
-          <a href="/item/delete/{{i.id}}" class="left-align">Delete</a>
           <p class="right-align">${{i.price}}</p>
+          <a class="btn btn-primary" href="/item/{{i.category.name}}/{{i.id}}">Info</a>
+
         </div>
       </div>
     </div>

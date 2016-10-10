@@ -12,25 +12,22 @@
         <label for="description">Description</label>
         <textarea id="description" name="description" class="form-control"></textarea>
     </div>
-    <div class="row">
+    <div class="form-group">
         <label for="price">Price</label>
         <input type="text" name="price" class="form-control">
     </div>
-    <div>
-      <select name=category>
+    <div class="form-group">
+      <select name=category class="dropdown">
         <option value="" disabled selected>Choose Item Category</option>
         {% for cat in categories %}
         <option value="{{cat.id}}">{{cat.name}}</option>
         {% endfor %}
       </select>
     </div>
-    <input type="submit" class="btn waves-lights">
+    <div class="form-group">
+      <input type="submit" class="btn waves-lights">
+    </div>
   </form>
 </div>
 
-<script>
-  $(document).ready(function() {
-    $('select').material_select();
-  });
-</script>
 {% endblock %}

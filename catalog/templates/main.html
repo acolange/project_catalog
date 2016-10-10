@@ -2,26 +2,36 @@
 
 {% block body %}
 <main class="container">
+  {% with messages = get_flashed_messages() %}
+    {% if messages %}
+      <ul>
+        {% for message in messages %}
+          <li>{{message}}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+  {% endwith %}
   <div class="row">
-
-    <div class="">
-      <h3>Categories</h3>
-      <div class="">
+    <div class="col-sm-6">
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+          <a href="{{url_for('Categories')}}"><h4>Categories</h4><a>
+        </div>
         {% for cat in categories %}
-          <a href="/category/{{cat.name}}" class="">{{cat.name}}</a>
+          <a href="/category/{{cat.name}}" class="list-group-item">{{cat.name}}</a>
         {% endfor %}
       </div>
     </div>
-
-    <div class="">
-      <h3>Most Recent Items</h3>
-      <div class="">
+    <div class="col-sm-6">
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+          <a href="{{url_for('newestItems')}}"><h4>Most Recent Items</h4></a>
+        </div>
         {% for i in items %}
-          <a href="/item/{{i.category.name}}/{{i.id}}" class="">{{i.name}}</a>
+          <a href="/item/{{i.category.name}}/{{i.id}}" class="list-group-item">{{i.name}}</a>
         {% endfor %}
       </div>
     </div>
   </div>
-  <a href="/category/create" class="">New Category</a>
 </main>
 {% endblock %}

@@ -1,6 +1,7 @@
 {% extends "layout.html" %}
 
 {% block body %}
+
 <main class="container">
   {% with messages = get_flashed_messages() %}
     {% if messages %}
@@ -14,15 +15,15 @@
 
   <div class="panel panel-primary">
     <div class="panel-heading">
-      <h4>Categories</h4>
+      <h4>Most Recent Items</h4>
     </div>
-    {% for cat in categories %}
-      <a href="/category/{{cat.name}}" class="list-group-item">{{cat.name}}</a>
+    {% for i in items %}
+      <a href="/item/{{i.category.name}}/{{i.id}}" class="list-group-item">{{i.name}}</a>
     {% endfor %}
   </div>
 
   {% if 'username' in session %}
-    <a class="btn btn-default" href="/category/create">New Category</a>
+    <a class="btn btn-primary" href="/item/create">New Item</a>
   {% endif %}
 
 </main>
