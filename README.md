@@ -10,3 +10,5 @@ Once there run `vagrant up` to start your vagrant box.
 After the vagrant box has started use `vagrant ssh` to access the vagrant box command line.  From there use `/vagrant/catalog` to get into the directory for the project.
 
 If this is the first time you have run this project you will need to run the the database setup first using `python database_setup.py`.
+
+To start the server and project you will need to run `python project.py`.  After this the site should be available at `localhost:8000`.
