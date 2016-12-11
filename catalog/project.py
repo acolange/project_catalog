@@ -1,8 +1,10 @@
 from flask import Flask, render_template, request, redirect
 from flask import jsonify, url_for, flash, session
+import psycopg2
 from sqlalchemy import create_engine, asc
 from sqlalchemy.orm import sessionmaker
 from database_setup import Base, User, Category, Item
+
 
 # from flask import session as login_session
 import random
@@ -17,15 +19,16 @@ from flask import make_response
 import requests
 app = Flask(__name__)
 
-engine = create_engine('sqlite:///sitecatalog.db')
+# engine = create_engine('sqlite:////vagrant/catalog/catalog/sitecatalog.db')
+engine = create_engine('postgresql+psycopg2://postgres:Iamawesome1@localhost/sitecatalog')
 Base.metadata.bind = engine
 
 DBSession = sessionmaker(bind=engine)
 sess = DBSession()
 
-
+secrets_loc = '/vagrant/catalog/catalog/client_secrets.json'
 CLIENT_ID = json.loads(
-    open('client_secrets.json', 'r').read())['web']['client_id']
+    open(secrets_loc, 'r').read())['web']['client_id']
 APPLICATION_NAME = "catalog-ac"
 
 
@@ -69,7 +72,7 @@ def gconnect():
     code = request.data
 
     try:
-        oauth_flow = flow_from_clientsecrets('client_secrets.json', scope='')
+        oauth_flow = flow_from_clientsecrets(secrets_loc, scope='')
         oauth_flow.redirect_uri = 'postmessage'
         credentials = oauth_flow.step2_exchange(code)
     except FlowExchangeError:
@@ -348,6 +351,7 @@ def ItemJSON(item_id):
 
 
 if __name__ == '__main__':
-    app.secret_key = 'super_secret_key'
+    # app.secret_key = 'super_secret_key'
     app.debug = True
-    app.run(host='0.0.0.0', port=8000)
+    # app.run(host='0.0.0.0', port=8000)
+    app.run()

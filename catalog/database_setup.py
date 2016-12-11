@@ -80,6 +80,6 @@ class Item(Base):
             'Picture': self.picture
         }
 
-engine = create_engine('sqlite:///sitecatalog.db')
+engine = create_engine('postgresql+psycopg2://postgres:Iamawesome1@localhost/sitecatalog')
 
 Base.metadata.create_all(engine)
