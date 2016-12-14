@@ -31,6 +31,9 @@ APPLICATION_NAME = "catalog-ac"
 
 @app.route('/login')
 def Login():
+    """
+        Handles the login page routing
+    """
     state = ''.join(random.choice(string.ascii_uppercase + string.digits)
                     for x in xrange(32))
     session['state'] = state
@@ -39,6 +42,9 @@ def Login():
 
 @app.route('/logout')
 def Logout():
+    """
+        Handles the logout cleanup for users's session
+    """
     if 'provider' in session:
         if session['provider'] == 'google':
             gdisconnect()
@@ -61,6 +67,9 @@ def Logout():
 
 @app.route('/gconnect', methods=['POST'])
 def gconnect():
+    """
+        Handles the process of signing in with Google+ signin
+    """
     # check state token
     if request.args.get('state') != session['state']:
         response = make_response(json.dumps('Invalid state parameter.'), 401)
@@ -156,6 +165,9 @@ def gconnect():
 
 @app.route('/gdisconnect')
 def gdisconnect():
+    """
+        Handles logging a user off through Google+ signin
+    """
     # Only disconnect a connected user.
     credentials = session.get('credentials')
     if credentials is None:
@@ -176,6 +188,9 @@ def gdisconnect():
 
 
 def createUser(session):
+    """
+        Creates a new user for the site
+    """
     newUser = User(name=session['username'], email=session[
                    'email'], picture=session['picture'])
     sess.add(newUser)
@@ -185,11 +200,17 @@ def createUser(session):
 
 
 def getUserInfo(user_id):
+    """
+        Retrieves a user's information from the database
+    """
     user = sess.query(User).filter_by(id=user_id).all()
     return user
 
 
 def getUserID(email):
+    """
+        Retrieves a user's ID from their email address
+    """
     try:
         user = sess.query(User).filter_by(email=email).one()
         return user.id
@@ -200,6 +221,9 @@ def getUserID(email):
 @app.route('/')
 @app.route('/main')
 def Landing():
+    """
+        Handles the routing for the site's main page
+    """
     categories = sess.query(Category).all()
     items = sess.query(Item).limit(10).all()
     return render_template('main.html', categories=categories, items=items)
@@ -207,12 +231,18 @@ def Landing():
 
 @app.route('/categories')
 def Categories():
+    """
+        Handles the site's page listing the categories in the catalog
+    """
     categories = sess.query(Category).all()
     return render_template('categories.html', categories=categories)
 
 
 @app.route('/category/<string:category>')
 def ShowCategory(category):
+    """
+        Handles displaying the items in a category
+    """
     cat = sess.query(Category).filter_by(name=category).one()
     items = sess.query(Item).filter_by(category_id=cat.id).all()
     return render_template('itemList.html', items=items, category=cat)
@@ -220,6 +250,9 @@ def ShowCategory(category):
 
 @app.route('/category/create', methods=['GET', 'POST'])
 def CreateCategory():
+    """
+        Handles creating a new catagory in the catalog
+    """
     if 'username' not in session:
         return redirect(url_for('Login'))
     if request.method == 'POST':
@@ -235,6 +268,9 @@ def CreateCategory():
 
 @app.route('/category/delete/<int:category_id>', methods=['GET', 'POST'])
 def DeleteCategory(category_id):
+    """
+        Handles removing a category and its items from the catalog
+    """
     if 'username' not in session:
         return redirect(url_for('Login'))
     categoryToDelete = sess.query(Category).filter_by(id=category_id).one()
@@ -255,18 +291,27 @@ def DeleteCategory(category_id):
 
 @app.route('/item/newestItems')
 def newestItems():
+    """
+        Retrieves the 10 newest items added to the catalog
+    """
     items = sess.query(Item).limit(10).all()
     return render_template('newestItems.html', items=items)
 
 
 @app.route('/item/<string:category>/<int:item_id>')
 def ShowItem(category, item_id):
+    """
+        Handles showing the page for an item from the catalog
+    """
     item = sess.query(Item).filter_by(id=item_id).one()
     return render_template('item.html', item=item)
 
 
 @app.route('/item/create', methods=['GET', 'POST'])
 def CreateItem():
+    """
+        Handles creating a new item for the catalog
+    """
     if 'username' not in session:
         return redirect(url_for('Login'))
     if request.method == 'POST':
@@ -288,6 +333,9 @@ def CreateItem():
 @app.route('/item/edit/<int:category_id>/<int:item_id>',
            methods=['GET', 'POST'])
 def EditItem(category_id, item_id):
+    """
+        Handles updating the information on an item in the catalog
+    """
     if 'username' not in session:
         return redirect(url_for('Login'))
     itemToEdit = sess.query(Item).filter_by(id=item_id).one()
@@ -312,6 +360,9 @@ def EditItem(category_id, item_id):
 @app.route('/item/delete/<int:category_id>/<int:item_id>',
            methods=['GET', 'POST'])
 def DeleteItem(category_id, item_id):
+    """
+        Handles removing an item from the catalog
+    """
     if 'username' not in session:
         return redirect(url_for('Login'))
     itemToDelete = sess.query(Item).filter_by(id=item_id).one()
@@ -331,18 +382,27 @@ def DeleteItem(category_id, item_id):
 
 @app.route('/catalog/json')
 def CatalogJSON():
+    """
+        Returns a JSON list of all the items in the catalog
+    """
     categories = sess.query(Category).all()
     return jsonify(Categories=[c.serialize for c in categories])
 
 
 @app.route('/category/<string:category>/json')
 def CategoryJSON(category):
+    """
+        Returns the JSON list of items in a single category
+    """
     cat = sess.query(Category).filter_by(name=category).one()
     return jsonify(Category=cat.serialize)
 
 
 @app.route('/item/<int:item_id>/json')
 def ItemJSON(item_id):
+    """
+        Returns the JSON information on a signle item
+    """
     item = sess.query(Item).filter_by(id=item_id).one()
     return jsonify(item=item.serialize)
 
